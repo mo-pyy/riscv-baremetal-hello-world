@@ -1,4 +1,4 @@
-OUTPUT_FORMAT("elf64-littleriscv", "elf64-littleriscv", "elf64-littleriscv")
+OUTPUT_FORMAT("elf64-littleriscv")
 OUTPUT_ARCH(riscv)
 ENTRY(_start)
 
@@ -8,44 +8,33 @@ MEMORY
 {
 	ram  : org = 0x40000000, len = 64M
 }
-
 SECTIONS
 {
 	.text :
 	{
-		PROVIDE(__image_start = .);
-		PROVIDE(__text_start = .);
-		main.o (.text*)
+		*(.init)
 		*(.text*)
-		PROVIDE(__text_end = .);
 	} > ram
 
-	.rodata ALIGN(8) :
+	.rodata ALIGN(16) :
 	{
-		PROVIDE(__rodata_start = .);
 		*(.rodata*)
 		*(.srodata*)
-		PROVIDE(__rodata_end = .);
 	} > ram
 
-	.data ALIGN(8) :
+	.data ALIGN(16) :
 	{
-		PROVIDE(__data_start = .);
 		PROVIDE(__global_pointer$ = . + 0x800);
 		*(.sdata*)
 		*(.data*)
 		. = ALIGN(8);
-  		PROVIDE(__data_end = .);
-		PROVIDE(__image_end = .);
 	} > ram
 
-	.bss ALIGN(8) (NOLOAD) :
+	.bss ALIGN(16) (NOLOAD) :
 	{
-		PROVIDE(__bss_start = .);
 		*(.bss*)
 		*(.sbss*)
 		. = ALIGN(8);
-		PROVIDE(__bss_end = .);
 	} > ram
 
 	.stack ALIGN(16) (NOLOAD) :

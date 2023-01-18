@@ -1,0 +1,6 @@
+#!/bin/sh
+lsusb | grep FEL
+xfel version
+xfel ddr d1
+xfel write 0x40000000 build_riscv/riscv-baremetal-hello-world.bin
+xfel exec 0x40000000

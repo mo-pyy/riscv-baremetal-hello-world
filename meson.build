@@ -1,9 +1,10 @@
 project('riscv-baremetal-hello-world',
         'c',
-        version: '0.1'
+        version: '0.1',
+        default_options: ['b_lundef=false']
         )
 
-sources = files( 'main.c' )
+sources = files('src/main.c' ,'src/common.c', 'src/gpio.c', 'src/crt0.s' )
 
 linker_script_flags = []
 
